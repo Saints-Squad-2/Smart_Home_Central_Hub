@@ -1,7 +1,15 @@
 // Smart Appliance base class
 
-class SmartAppliance {
+const { Model } = require('objection');
+
+class SmartAppliance extends Model {
+    static get tableName() {
+        return 'appliances';
+    }
+
     constructor(name='') {
+        super();
+        
         this._connected = false;
         this._poweredOn = false;
         this._name = String(name);
