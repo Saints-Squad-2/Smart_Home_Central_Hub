@@ -1,5 +1,6 @@
 const { Model } = require('objection');
-const knex = require('./knex/knex');
+//const knex = require('./knex/knex');
+const knex = require('./knex/testKnex');
 
 const { SmartAppliance } = require('../classes/appliance');
 

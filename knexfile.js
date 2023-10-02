@@ -9,8 +9,13 @@ module.exports = {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
-      //filename: './example.sqlite3'
-      filename: ':memory:'
+      filename: './example.sqlite3'
+    },
+    migrations: {
+      directory: __dirname + '/database/knex/migrations'
+    },
+    seeds: {
+      directory: __dirname + '/database/knex/seeds'
     }
   },
 
