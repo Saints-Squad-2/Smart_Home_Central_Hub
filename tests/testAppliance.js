@@ -1,7 +1,12 @@
 // Tests for Smart Appliance base class
 
 const assert = require('assert');
+const { Model } = require('objection');
+
 const { SmartAppliance } = require('../classes/appliance');
+const testKnex = require('../database/knex/testKnex');
+
+Model.knex(testKnex);
 
 describe('SmartAppliance', () => {
     before(() => {
@@ -31,5 +36,5 @@ describe('SmartAppliance', () => {
     it('should be able to set a custom name', () => {
         this.appliance.name = 'Bingo';
         assert.equal(this.appliance.name, 'Bingo');
-    })
+    });
 });
