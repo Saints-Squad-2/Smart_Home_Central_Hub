@@ -19,6 +19,10 @@ class Base extends Model {
         }
     }
 
+    async deleteFromDB(cls) {
+        await cls.query().deleteById(this.id);
+    }
+
     static async loadById(cls, id) {
         return await cls.query().findById(id);
     }
