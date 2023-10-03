@@ -1,0 +1,10 @@
+Knex
+    migrations
+        knex migrate:make migration_name
+
+        knex migrate:latest
+
+        knex migrate:rollback
+
+    seeds
+        knex seed:make seed_name
