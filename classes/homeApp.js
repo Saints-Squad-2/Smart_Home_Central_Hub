@@ -38,6 +38,11 @@ class SmartHomeApp {
     numberOfAppliances() {
         return this._available.length;
     }
+
+    async loadAvailable() {
+        const available = await SmartAppliance.query();
+        this._available = available;
+    }
 }
 
 module.exports = SmartHomeApp;
