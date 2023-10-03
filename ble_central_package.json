@@ -1,0 +1,11 @@
+{
+    "name": "ble_peripheral",
+    "version": "1.0.0",
+    "description": "BLE peripheral for the Smart Home Hub",
+    "main": "peripheral.js",
+    "scripts": {
+      "start": "node peripheral.js"
+    },
+    "dependencies": {
+      "bleno": "^0.5.2" 
+  }
