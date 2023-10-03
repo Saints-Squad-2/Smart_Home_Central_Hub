@@ -1,7 +1,15 @@
 // Smart Appliance base class
 
-class SmartAppliance {
+const Base = require('../database/base');
+
+class SmartAppliance extends Base {
+    static get tableName() {
+        return 'appliances';
+    }
+
     constructor(name='') {
+        super();
+        
         this._connected = false;
         this._poweredOn = false;
         this._name = String(name);
