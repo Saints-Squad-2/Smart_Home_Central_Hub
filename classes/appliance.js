@@ -1,8 +1,8 @@
 // Smart Appliance base class
 
-const { Model } = require('objection');
+const Base = require('../database/base');
 
-class SmartAppliance extends Model {
+class SmartAppliance extends Base {
     static get tableName() {
         return 'appliances';
     }

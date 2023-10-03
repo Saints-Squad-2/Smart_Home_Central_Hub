@@ -1,28 +1,23 @@
-const { Model } = require('objection');
-//const knex = require('./knex/knex');
-const knex = require('./knex/testKnex');
-
+const {testKnex, createSchema} = require('./knex/testKnex');
+const Base = require('../database/base');
 const { SmartAppliance } = require('../classes/appliance');
 
-Model.knex(knex);
-
-async function createSchema() {
-    if (await knex.schema.hasTable('appliances')) return;
-
-    await knex.schema.createTable('appliances', table => {
-        table.increments('id').primary();
-        table.boolean('_poweredOn');
-        table.boolean('_connected');
-        table.string('_name');
-    });
-}
+const knex = testKnex;
+Base.knex(knex);
 
 async function main() {
-    await createSchema();
+    await createSchema(knex);
 
-    test = new SmartAppliance('test');
-    const app = await SmartAppliance.query().insert(test);
-    console.log(app);
+    const test = new SmartAppliance('test');
+    await test.save(SmartAppliance);
+    console.log(test);
+
+    test.name = 'hey world!';
+    test.powerOn();
+    await test.save(SmartAppliance);
+
+    const test2 = await SmartAppliance.query().findById(1);
+    console.log('\n', test2);
 
     knex.destroy();
 }
