@@ -81,9 +81,9 @@ class NotificationArray extends Base {
     }
 
     remove(notification) {
-        notif_idx = this._data.indexOf(notification);
-        
-        if (notif_idx) {
+        const notif_idx = this._data.indexOf(notification);
+
+        if (notif_idx >= 0) {
             this._data.splice(notif_idx, 1);
             notification.notArrId = null;
         }
