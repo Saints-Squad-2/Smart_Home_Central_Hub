@@ -19,8 +19,8 @@ function compareInstances(inst1, inst2) {
 describe('ORM Base Class', () => {
     before(async () => {
         Base.knex(testKnex);
-        this.appliance = new SmartAppliance('test');
-        this.appliance2 = new SmartAppliance('test2');
+        this.appliance = new SmartAppliance([], 'test');
+        this.appliance2 = new SmartAppliance([], 'test2');
         
         await createSchema(testKnex);
     });

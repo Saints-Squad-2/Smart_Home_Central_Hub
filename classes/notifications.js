@@ -2,10 +2,18 @@
 
 const Base = require('../database/base');
 
-class Notification {
-    constructor(info) {
+class Notification extends Base {
+    static get tableName() {
+        return 'notifications';
+    }
+
+    constructor(info, applianceID) {
+        super(); 
+        
         this._info = info;
         this._active = true;
+        
+        this.applianceID = applianceID;
     }
 
     get info() {
@@ -62,4 +70,9 @@ class NotificationArray {
     hideNotifications() {
         this._show = false;
     }
+}
+
+module.exports = {
+    Notification,
+    NotificationArray
 }
