@@ -106,6 +106,29 @@ class NotificationArray extends Base {
         }
     }
 
+    async loadNotifications() {
+        this.data = await NotificationArray
+            .relatedQuery('_data')
+            .for(this.id);
+    }
+
+    static async fullLoadById(id) {
+        const loaded = await Base.loadById(Notification);
+        await loaded.loadNotifications();
+        
+        return loaded;
+    }
+
+    static async fullLoadByApplianceId(appId) {
+        let loaded = await NotificationArray.query()
+            .where('_applianceId', '=', appId);
+
+        loaded = loaded[0];
+        await loaded.loadNotifications();
+        
+        return loaded;
+    }
+
     static get relationMappings() {
         return {
             _data: {

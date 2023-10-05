@@ -72,6 +72,13 @@ class SmartAppliance extends Base {
         } catch {}
     }
 
+    static async fullLoadById(id) {
+        const loaded = await Base.loadById(SmartAppliance, id);
+        loaded.notifications = await NotificationArray.fullLoadByApplianceId(loaded.id);
+        
+        return loaded;
+    }
+
     static get relationMappings() {
         return {
             _notifications: {

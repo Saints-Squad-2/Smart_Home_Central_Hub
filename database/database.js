@@ -20,15 +20,10 @@ async function main() {
     test.notifications.add(new Notification('hello world!'));
     test.notifications.hideNotifications();
     await test.fullSave();
-
     console.log(test);
-    console.log('\n', testNotif);
 
-    // const notifs = await NotificationArray.relatedQuery('_data').for(1);
-    // console.log('\n', notifs);
-
-    // const test2 = await SmartAppliance.query().findById(1);
-    // console.log('\n', test2);
+    const test2 = await SmartAppliance.fullLoadById(1);
+    console.log('\n', test2);
 
     knex.destroy();
 }
