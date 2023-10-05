@@ -7,13 +7,13 @@ class Notification extends Base {
         return 'notifications';
     }
 
-    constructor(info, applianceID) {
+    constructor(info, notArrId=null) {
         super(); 
         
         this._info = info;
         this._active = true;
         
-        this.applianceID = applianceID;
+        this._notArrId = notArrId;
     }
 
     get info() {
@@ -22,6 +22,14 @@ class Notification extends Base {
 
     get active() {
         return this._active;
+    }
+
+    get notArrId() {
+        return this._notArrId;
+    }
+
+    set notArrId(id) {
+        this._notArrId = id;
     }
 
     make_inactive() {
@@ -33,10 +41,18 @@ class Notification extends Base {
     }
 }
 
-class NotificationArray {
-    constructor(data=[]) {
+class NotificationArray extends Base {
+    static get tableName() {
+        return 'notificationArrays';
+    }
+
+    constructor(data=[], applianceId=null) {
+        super();
+
         this._data = data;
         this._show = true;
+
+        this._applianceId = applianceId;
     }
 
     get data() {
@@ -51,8 +67,17 @@ class NotificationArray {
         return this._show;
     }
 
+    get applianceId() {
+        return this._applianceId;
+    }
+
+    set applianceId(id) {
+        this._applianceId = id;
+    }
+
     add(notification) {
         this._data.push(notification);
+        notification.notArrId = this.id;
     }
 
     remove(notification) {
@@ -60,6 +85,7 @@ class NotificationArray {
         
         if (notif_idx) {
             this._data.splice(notif_idx, 1);
+            notification.notArrId = null;
         }
     }
 
@@ -69,6 +95,19 @@ class NotificationArray {
 
     hideNotifications() {
         this._show = false;
+    }
+
+    static get relationMappings() {
+        return {
+            _data: {
+                relation: Base.HasManyRelation,
+                modelClass: Notification,
+                join: {
+                    from: 'notificationArrays.id',
+                    to: 'notifications._notArrId'
+                }
+            }
+        }
     }
 }
 

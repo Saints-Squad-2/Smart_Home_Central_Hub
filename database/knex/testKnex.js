@@ -24,8 +24,14 @@ async function createSchema(knex) {
     table.increments('id').primary();
     table.string('_info');
     table.boolean('_active');
-    table.integer('applianceId');
-  })
+    table.integer('_notArrId');
+  });
+
+  await knex.schema.createTable('notificationArrays', table => {
+    table.increments('id').primary();
+    table.integer('_applianceId');
+    table.boolean('_show');
+  });
 }
 
 module.exports = {

@@ -1,7 +1,7 @@
 // Smart Appliance base class
 
 const Base = require('../database/base');
-const { Notification } = require('../classes/notifications');
+const { Notification, NotificationArray } = require('../classes/notifications');
 
 class SmartAppliance extends Base {
     static get tableName() {
@@ -13,8 +13,9 @@ class SmartAppliance extends Base {
         
         this._connected = false;
         this._poweredOn = false;
-        this._notifications = notifications;
         this._name = String(name);
+
+        this.notifications = notifications;
     }
 
     get connected() {
@@ -33,6 +34,15 @@ class SmartAppliance extends Base {
         this._name = String(name);
     }
 
+    get notifications() {
+        return this._notifications;
+    }
+
+    set notifications(notifs) {
+        this._notifications = notifs;
+        this.setIds();
+    }
+
     connect() {
         this._connected = true;
     }
@@ -49,14 +59,21 @@ class SmartAppliance extends Base {
         this._poweredOn = false;
     }
 
+    // set ids for correct database saving
+    setIds() {
+        try {
+            this._notifications.applianceId = this.id;
+        } catch {}
+    }
+
     static get relationMappings() {
         return {
             _notifications: {
-                relation: Base.HasManyRelation,
-                modelClass: Notification,
+                relation: Base.HasOneRelation,
+                modelClass: NotificationArray,
                 join: {
                     from: 'appliances.id',
-                    to: 'notifications.applianceId'
+                    to: 'notificationArrays._applianceId'
                 }
             }
         }

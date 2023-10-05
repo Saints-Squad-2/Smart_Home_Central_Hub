@@ -10,26 +10,38 @@ Base.knex(knex);
 async function main() {
     await createSchema(knex);
 
+    const testNotifArr = new NotificationArray([]);
+    await testNotifArr.save(NotificationArray);
+    //console.log(testNotifArr, '\n');
+
     const testNotif = new Notification('this is a test!');
-    await testNotif.save(Notification);
-    console.log(testNotif, '\n');
+    testNotifArr.add(testNotif);
 
-    const test = new SmartAppliance([testNotif], 'test');
+
+    //console.log(testNotif, '\n');
+    const test = new SmartAppliance(testNotifArr, 'test');
     await test.save(SmartAppliance);
-    console.log(test);
+    test.setIds();
 
-    testNotif.applianceId = 1;
     await testNotif.save(Notification);
 
-    // test.name = 'hey world!';
-    // test.powerOn();
-    // await test.save(SmartAppliance);
+    console.log(test);
+    console.log('\n', testNotif);
 
-    const notifs = await SmartAppliance.relatedQuery('_notifications').for(1);
-    console.log('\n', notifs);
+    // const keys = Object.keys(test);
+    // for (k of keys) {
+    //     console.log(k, test[k]);
+    // }
 
-    const test2 = await SmartAppliance.query().findById(1);
-    console.log('\n', test2);
+    // // test.name = 'hey world!';
+    // // test.powerOn();
+    // // await test.save(SmartAppliance);
+
+    // const notifs = await NotificationArray.relatedQuery('_data').for(1);
+    // console.log('\n', notifs);
+
+    // const test2 = await SmartAppliance.query().findById(1);
+    // console.log('\n', test2);
 
     knex.destroy();
 }
