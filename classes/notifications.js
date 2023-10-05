@@ -97,6 +97,15 @@ class NotificationArray extends Base {
         this._show = false;
     }
 
+    async fullSave() {
+        await this.save(NotificationArray);
+
+        for (let notif of this._data) {
+            notif.notArrId = this.id;
+            await notif.save(Notification);
+        }
+    }
+
     static get relationMappings() {
         return {
             _data: {

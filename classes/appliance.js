@@ -1,7 +1,7 @@
 // Smart Appliance base class
 
 const Base = require('../database/base');
-const { Notification, NotificationArray } = require('../classes/notifications');
+const { NotificationArray } = require('../classes/notifications');
 
 class SmartAppliance extends Base {
     static get tableName() {
@@ -57,6 +57,12 @@ class SmartAppliance extends Base {
 
     powerOff() {
         this._poweredOn = false;
+    }
+
+    async fullSave() {
+        await this.save(SmartAppliance);
+        this.setIds();
+        await this._notifications.fullSave();
     }
 
     // set ids for correct database saving

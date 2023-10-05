@@ -11,31 +11,18 @@ async function main() {
     await createSchema(knex);
 
     const testNotifArr = new NotificationArray([]);
-    await testNotifArr.save(NotificationArray);
-    //console.log(testNotifArr, '\n');
-
     const testNotif = new Notification('this is a test!');
     testNotifArr.add(testNotif);
 
-
-    //console.log(testNotif, '\n');
     const test = new SmartAppliance(testNotifArr, 'test');
-    await test.save(SmartAppliance);
-    test.setIds();
+    await test.fullSave();
 
-    await testNotif.save(Notification);
+    test.notifications.add(new Notification('hello world!'));
+    test.notifications.hideNotifications();
+    await test.fullSave();
 
     console.log(test);
     console.log('\n', testNotif);
-
-    // const keys = Object.keys(test);
-    // for (k of keys) {
-    //     console.log(k, test[k]);
-    // }
-
-    // // test.name = 'hey world!';
-    // // test.powerOn();
-    // // await test.save(SmartAppliance);
 
     // const notifs = await NotificationArray.relatedQuery('_data').for(1);
     // console.log('\n', notifs);
