@@ -1,8 +1,8 @@
-const { SmartAppliance } = require('./smartAppliance');
+const { SmartAppliance } = require('./appliance');
 
 class Camera extends SmartAppliance {
-  constructor(name = '', resolution = '1080p') {
-    super(name);
+  constructor(notifications, name = '', resolution = '1080p') {
+    super(notifications, name);
     this._resolution = resolution;
     this._isRecording = false;
     this._recordings = [];

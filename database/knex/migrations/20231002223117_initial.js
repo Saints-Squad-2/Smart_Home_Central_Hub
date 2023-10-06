@@ -9,6 +9,9 @@ exports.up = function(knex) {
             table.boolean('_poweredOn');
             table.boolean('_connected');
             table.string('_name');
+            table.string('_resolution');
+            table.boolean('_isRecording');
+            table.json('_recordings');
         })
         .createTable('notifications', table => {
             table.increments('id').primary();
