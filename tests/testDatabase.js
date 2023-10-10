@@ -78,7 +78,7 @@ describe('Database Connection', () => {
         });
     });
 
-    describe('SmartAppliance Class', () => {
+    describe('SmartAppliance', () => {
         before(() => {
             this.notifications = [new Notification('test 1'), new Notification('test 2')];
             this.notifArr = new NotificationArray(this.notifications);

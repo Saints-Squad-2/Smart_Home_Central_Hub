@@ -5,13 +5,23 @@
 exports.up = function(knex) {
     return knex.schema
         .createTable('appliances', table => {
+            
+            // Base
             table.increments('id').primary();
             table.boolean('_poweredOn');
             table.boolean('_connected');
             table.string('_name');
+            
+            // Camera
             table.string('_resolution');
             table.boolean('_isRecording');
             table.json('_recordings');
+
+            // Thermostat
+            table.string('_units');
+            table.decimal('_preferredTemp');
+            table.decimal('_minTemp');
+            table.decimal('_maxTemp');
         })
         .createTable('notifications', table => {
             table.increments('id').primary();
