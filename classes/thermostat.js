@@ -1,4 +1,5 @@
 const { SmartAppliance } = require('./appliance');
+const { isANumber } = require('../utils');
 
 class Thermostat extends SmartAppliance {
     constructor(notifications, name='', units='F') {
@@ -27,7 +28,7 @@ class Thermostat extends SmartAppliance {
     }
 
     set preferredTemp(temp) {
-        if (typeof temp === 'number') {
+        if (isANumber(temp)) {
             this._preferredTemp = temp;
         }
     }
@@ -37,7 +38,7 @@ class Thermostat extends SmartAppliance {
     }
 
     set minTemp(temp) {
-        if (typeof temp ===' number') {
+        if (isANumber(temp)) {
             this._minTemp = temp;
         }
     }
@@ -47,7 +48,7 @@ class Thermostat extends SmartAppliance {
     }
 
     set maxTemp(temp) {
-        if (typeof temp ===' number') {
+        if (isANumber(temp)) {
             this._maxTemp = temp;
         }
     }
