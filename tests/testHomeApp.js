@@ -1,10 +1,11 @@
 // Tests for Smart Home App class
 
 const assert = require('assert');
+
 const SmartHomeApp = require('../classes/homeApp');
 const { SmartAppliance } = require('../classes/appliance');
 
-describe('SmartHomeApp', () => {
+describe('SmartHomeApp Class', () => {
     before(() => {
         this.testApp = new SmartHomeApp();
         this.testAppliance = new SmartAppliance();
