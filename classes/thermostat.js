@@ -67,10 +67,22 @@ class Thermostat extends SmartAppliance {
         return valid;
     }
 
-    resetTemps() {
+    resetPreferredTemp() {
         this._preferredTemp = null;
+    }
+
+    resetMinTemp() {
         this._minTemp = null;
+    }
+
+    resetMaxTemp() {
         this._maxTemp = null;
+    }
+
+    resetTemps() {
+        this.resetPreferredTemp();
+        this.resetMinTemp();
+        this.resetMaxTemp();
     }
 }
 
