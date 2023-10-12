@@ -50,6 +50,13 @@ class SmartHomeApp extends Base {
         return this._available.length;
     }
 
+    async saveAvailable() {
+        for(let appliance of this.available) {
+            appliance.smartHomeAppId = this.id;
+            await appliance.fullSave();
+        }
+    }
+
     async loadAvailable() {
         this._available = await SmartHomeApp
         .relatedQuery('_available')
@@ -62,11 +69,7 @@ class SmartHomeApp extends Base {
 
     async fullSave() {
         await this.save(SmartHomeApp);
-
-        for(let appliance of this.available) {
-            appliance.smartHomeAppId = this.id;
-            await appliance.fullSave();
-        }
+        await this.saveAvailable();
     }
 
     static async fullLoadById(id) {

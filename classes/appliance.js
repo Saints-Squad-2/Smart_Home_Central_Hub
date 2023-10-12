@@ -68,8 +68,14 @@ class SmartAppliance extends Base {
         this._poweredOn = false;
     }
 
-    async fullSave() {
-        await this.save(SmartAppliance);
+    // set ids for correct database saving
+    setIds() {
+        try {
+            this._notifications.applianceId = this.id;
+        } catch {}
+    }
+
+    async saveNotificationArray() {
         this.setIds();
         await this._notifications.fullSave();
     }
@@ -78,11 +84,10 @@ class SmartAppliance extends Base {
         this.notifications = await NotificationArray.fullLoadByApplianceId(this.id);
     }
 
-    // set ids for correct database saving
-    setIds() {
-        try {
-            this._notifications.applianceId = this.id;
-        } catch {}
+
+    async fullSave() {
+        await this.save(SmartAppliance);
+        await this.saveNotificationArray();
     }
 
     static async fullLoadById(id) {
