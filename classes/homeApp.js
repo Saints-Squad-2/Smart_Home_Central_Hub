@@ -51,8 +51,29 @@ class SmartHomeApp extends Base {
     }
 
     async loadAvailable() {
-        const available = await SmartAppliance.query();
-        this._available = available;
+        this._available = await SmartHomeApp
+        .relatedQuery('_available')
+        .for(this.id);
+
+        for(let preLoaded of this._available) {
+            await preLoaded.loadNotificationArray();
+        }
+    }
+
+    async fullSave() {
+        await this.save(SmartHomeApp);
+
+        for(let appliance of this.available) {
+            appliance.smartHomeAppId = this.id;
+            await appliance.fullSave();
+        }
+    }
+
+    static async fullLoadById(id) {
+        const loaded = await Base.loadById(SmartHomeApp, id);
+        await loaded.loadAvailable();
+
+        return loaded;
     }
 
     static get relationMappings() {

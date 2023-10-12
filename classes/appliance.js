@@ -45,11 +45,11 @@ class SmartAppliance extends Base {
     }
 
     get smartHomeAppId() {
-        return this.__smartHomeAppId;
+        return this._smartHomeAppId;
     }
 
     set smartHomeAppId(id) {
-        this.__smartHomeAppId = id;
+        this._smartHomeAppId = id;
     }
 
     connect() {
@@ -74,6 +74,10 @@ class SmartAppliance extends Base {
         await this._notifications.fullSave();
     }
 
+    async loadNotificationArray() {
+        this.notifications = await NotificationArray.fullLoadByApplianceId(this.id);
+    }
+
     // set ids for correct database saving
     setIds() {
         try {
@@ -83,7 +87,7 @@ class SmartAppliance extends Base {
 
     static async fullLoadById(id) {
         const loaded = await Base.loadById(SmartAppliance, id);
-        loaded.notifications = await NotificationArray.fullLoadByApplianceId(loaded.id);
+        await loaded.loadNotificationArray();
         
         return loaded;
     }

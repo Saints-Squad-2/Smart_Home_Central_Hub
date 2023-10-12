@@ -13,6 +13,10 @@ const testKnex =  Knex({
 async function createSchema(knex) {
   if (await knex.schema.hasTable('appliances')) return;
 
+  await knex.schema.createTable('smartHomeApps', table => {
+    table.increments('id').primary();
+  });
+
   await knex.schema.createTable('appliances', table => {
     table.increments('id').primary();
     table.boolean('_poweredOn');

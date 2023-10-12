@@ -7,6 +7,8 @@ const {testKnex, createSchema} = require('../database/knex/testKnex');
 const { SmartAppliance } = require('../classes/appliance');
 const { Notification, NotificationArray } = require('../classes/notifications');
 
+const SmartHomeApp = require('../classes/homeApp');
+
 async function loadInstance(id) {
     return await SmartAppliance.query().findById(id);
 }
@@ -21,7 +23,7 @@ function compareInstances(inst1, inst2) {
 function compareInstancesFull(inst1, inst2) {
     for (key of Object.keys(inst1)) {
         
-        if (inst1[key] instanceof NotificationArray 
+        if ( inst1[key] instanceof NotificationArray 
             || inst1[key] instanceof Notification
             || key === '_data') {
             compareInstancesFull(inst1[key], inst2[key]);
@@ -91,6 +93,24 @@ describe('Database Connection', () => {
 
             compareInstancesFull(this.appliance, loaded);
         })
+    });
+
+    describe('SmartHomeApp', () => {
+        before(async () => {
+            this.homeApp = new SmartHomeApp();
+            await this.homeApp.save(SmartHomeApp);
+        });
+
+        it('should be able to be fully saved/loaded (including available appliances)', async () => {
+            this.homeApp.addAppliance(this.appliance);
+            
+            await this.homeApp.fullSave();
+            const loaded = await SmartHomeApp.fullLoadById(this.homeApp.id);
+
+            assert.equal(this.homeApp.id, loaded.id);
+            assert.equal(this.homeApp.available.length, 1);
+            compareInstancesFull(loaded.available[0], this.appliance);
+        });
     });
 
     after(async () => {
