@@ -18,6 +18,7 @@ async function createSchema(knex) {
     table.boolean('_poweredOn');
     table.boolean('_connected');
     table.string('_name');
+    table.integer('_smartHomeAppId');
   });
 
   await knex.schema.createTable('notifications', table => {

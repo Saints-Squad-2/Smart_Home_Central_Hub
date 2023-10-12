@@ -4,6 +4,9 @@
  */
 exports.up = function(knex) {
     return knex.schema
+        .createTable('smartHomeApps', table => {
+            table.increments('id').primary();
+        })
         .createTable('appliances', table => {
             
             // Base
@@ -11,6 +14,7 @@ exports.up = function(knex) {
             table.boolean('_poweredOn');
             table.boolean('_connected');
             table.string('_name');
+            table.integer('_smartHomeAppId');
             
             // Camera
             table.string('_resolution');

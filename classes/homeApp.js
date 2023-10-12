@@ -1,9 +1,16 @@
 // Smart Home App class
 
+const Base = require('../database/base');
 const { SmartAppliance } = require('./appliance');
 
-class SmartHomeApp {
+class SmartHomeApp extends Base {
+    static get tableName() {
+        return 'smartHomeApps';
+    }
+
     constructor() {
+        super();
+
         this._available = [];
     }
 
@@ -14,6 +21,8 @@ class SmartHomeApp {
     addAppliance(appliance) {
         if (appliance instanceof SmartAppliance) {
             this._available.push(appliance);
+            appliance.smartHomeAppId = this.id;
+            
             return true;
         }
 
@@ -27,7 +36,9 @@ class SmartHomeApp {
             const currentAppliance = available[i];
 
             if (currentAppliance === appliance) {
-                available.splice(i, 1);
+                available.splice(i, 1);  
+                appliance.smartHomeAppId = null;
+                
                 return true;
             }
         }
@@ -42,6 +53,19 @@ class SmartHomeApp {
     async loadAvailable() {
         const available = await SmartAppliance.query();
         this._available = available;
+    }
+
+    static get relationMappings() {
+        return {
+            _available: {
+                relation: Base.HasManyRelation,
+                modelClass: SmartAppliance,
+                join: {
+                    from: 'smartHomeApps.id',
+                    to: 'appliances._smartHomeAppId'
+                }
+            }
+        }
     }
 }
 

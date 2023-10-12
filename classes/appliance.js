@@ -16,6 +16,7 @@ class SmartAppliance extends Base {
         this._name = String(name);
 
         this.notifications = notifications;
+        this._smartHomeAppId = null;
     }
 
     get connected() {
@@ -41,6 +42,14 @@ class SmartAppliance extends Base {
     set notifications(notifs) {
         this._notifications = notifs;
         this.setIds();
+    }
+
+    get smartHomeAppId() {
+        return this.__smartHomeAppId;
+    }
+
+    set smartHomeAppId(id) {
+        this.__smartHomeAppId = id;
     }
 
     connect() {
