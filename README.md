@@ -12,3 +12,6 @@ npm start OR node app.js
 
 # How to run tests: 
 npm test
+
+# Wireframe prototype
+[Link to Figma wireframe prototype](https://www.figma.com/file/JViZUwHEz0nqW3cCbUAXdn/Smart-Home-Central-Hub?type=design&node-id=0%3A1&mode=design&t=SObQSBXDw96apqGs-1)
