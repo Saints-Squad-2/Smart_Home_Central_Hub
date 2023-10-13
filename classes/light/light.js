@@ -23,10 +23,12 @@ class Light extends SmartAppliance {
 
   turnOn() {
     console.log('Light is turned on.');
+    this.powerOn();
   }
 
   turnOff() {
     console.log('Light is turned off.');
+    this.powerOff();
   }
 
   enableVoiceControl() {
@@ -59,8 +61,8 @@ class Light extends SmartAppliance {
 
   detectMotion() {
     if (this._motionDetectionEnabled) {
-      console.log('Motion detected; turning on the light.');
       this.turnOn();
+      console.log('Motion detected; turning on the light.');
     } else {
       console.log('Motion detection is not enabled for this light.');
     }

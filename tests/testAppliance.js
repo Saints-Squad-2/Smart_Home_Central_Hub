@@ -1,9 +1,10 @@
-// Tests for Smart Appliance classes
+// its for Smart Appliance classes
 
 const assert = require('assert');
 
 const { SmartAppliance } = require('../classes/appliance');
 const { Thermostat } = require('../classes/thermostat');
+const { Light } = require('../classes/light/light');
 
 describe('SmartAppliance Classes', () => {
     
@@ -92,4 +93,82 @@ describe('SmartAppliance Classes', () => {
             assert.equal(this.appliance.validTemps, true);
         });
     });
+
+    describe('Light', () => {
+        before(() => {
+            this.originalLogFunc = console.log;
+            this.light;
+            this.output;
+
+            console.log = (msg) => {
+                this.output = msg;
+            }
+        });
+        
+        beforeEach(() => {
+            this.light = new Light('Living Room Light', 75);
+            this.output = null;
+        });
+
+        it('Brightness can be set', () => {
+            this.light.brightness = 50;
+            assert.equal(this.light.brightness, 50);
+        });
+
+        it('Enable voice control', () => {
+            this.light.enableVoiceControl();
+            assert.equal(this.light._voiceControlEnabled, true);
+        });
+
+        it('Disable voice control', () => {
+            this.light.disableVoiceControl();
+            assert.equal(this.light._voiceControlEnabled, false);
+        });
+
+        it('Enable motion detection', () => {
+            this.light.enableMotionDetection();
+            assert.equal(this.light._motionDetectionEnabled, true);
+        });
+
+        it('Disable motion detection', () => {
+            this.light.disableMotionDetection();
+            assert.equal(this.light._motionDetectionEnabled, false);
+        });
+
+        it('Respond to voice command when voice control is enabled', () => {
+            this.light.enableVoiceControl();
+            const command = 'Turn on the light';
+            this.light.respondToVoiceCommand(command);
+
+            assert.equal(this.output, `Received voice command: "${command}"`)
+        });
+
+        it('Do not respond to voice command when voice control is disabled', () => {
+            this.light.disableVoiceControl();
+            const command = 'Turn on the light';
+            this.light.respondToVoiceCommand(command);
+            
+            assert.equal(this.output, 'Voice control is not enabled for this light.');
+        });
+
+        it('Detect motion and turn on the light when motion detection is enabled', () => {
+            this.light.enableMotionDetection();
+            this.light.detectMotion();
+            
+            assert.equal(this.output, 'Motion detected; turning on the light.');
+            assert.equal(this.light.poweredOn, true);
+        });
+
+        it('Do not detect motion and turn on the light when motion detection is disabled', () => {
+            this.light.disableMotionDetection();
+            this.light.detectMotion();
+            
+            assert.equal(this.output, 'Motion detection is not enabled for this light.');
+            assert.equal(this.light.poweredOn, false);
+        });
+
+        after(() => {
+            console.log = this.originalLogFunc;
+        })
+    });      
 });

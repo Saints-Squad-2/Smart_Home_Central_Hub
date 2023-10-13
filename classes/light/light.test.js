@@ -1,3 +1,5 @@
+// Light tests written for use with Jest npm module
+
 const { Light } = require('./light');
 
 describe('Light', () => {
