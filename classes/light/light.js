@@ -1,4 +1,4 @@
-const { SmartAppliance } = require('./smartAppliance');
+const { SmartAppliance } = require('../appliance');
 
 class Light extends SmartAppliance {
   constructor(name = '', brightness = 100) {
