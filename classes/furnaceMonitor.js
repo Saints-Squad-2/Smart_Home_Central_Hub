@@ -1,7 +1,7 @@
 const { Board, Thermometer, Relay } = require('johnny-five');
 const express = require('express');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
+const fetch = import('node-fetch');
 const app = express();
 const board = new Board();
 
