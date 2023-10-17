@@ -1,4 +1,7 @@
-const { signUp, signIn, confirmSignUp, confirmSignIn } = 'aws-amplify/auth';
+const { Auth } = require('@aws-amplify/auth');
+const { signUp, signIn, confirmSignUp, confirmSignIn } = Auth;
+
+//console.log(Auth)
 
 // set up a basic login code and integrate this for enabling SMS
 async function handleSignUp(
@@ -53,4 +56,8 @@ async function handleSignInConfirmation(otpCode) {
   }
   
   
-  
+ async function test() {
+    await handleSignUp('test', 'test', '1234567', 'test@test.com');
+ } 
+
+//test();
