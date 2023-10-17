@@ -1,3 +1,5 @@
+<img src="./images/logo.png" alt="Smart Home App Logo" width="300"/>
+
 # Smart_Home_Central_Hub
 A group project for SWDV 650 at Maryville University
 
