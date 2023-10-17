@@ -1,5 +1,88 @@
 # Classes
 
+### Base (Base ORM Class)
+
+ORM Base class for saving instances to / loading instances from a database.
+
+Extends [Model](https://vincit.github.io/objection.js/api/model/) class from objection.js.
+
+#### Properties
+
+id: Database id for instance
+
+*static tableName: Must be set up to return the name of the table
+
+*static relationMappings: Used to set up database relationships (see [here](https://vincit.github.io/objection.js/guide/relations.html#examples))
+
+#### Methods
+
+*cls refers to the class of the instance. This is necessary for child classes to correctly save / load.*
+
+constructor()
+ 
+async insert(cls): Inserts instance into database 
+
+async update(cls): Updates instance in database
+
+async save(cls): Dynamically inserts or updates instance based on whether it exists in the database
+
+async deleteFromDB(cls): Deletes instance from the database
+
+static async loadById(cls, id: Number): Loads and returns instance from the database based on the instance's id
+
+#### Examples: 
+
+```javascript
+const Base = require('./database/base');
+
+class Example extends Base {
+    static get tableName() {
+        return 'examples';
+    }
+
+    ...
+}
+
+const example = new Example();
+await example.save(Example);
+```
+
+### SmartHomeApp
+
+Smart Home Application class for holding information about available SmartAppliance instances.
+
+Extends Base ORM class.
+
+#### Properties
+
+available: array of associated SmartAppliance instances
+
+#### Methods
+
+constructor()
+
+addAppliance(apl: SmartAppliance):
+
+removeAppliance(apl: SmartAppliance):
+
+numberOfAppliances(): Returns the number of SmartAppliance instances in available array
+
+async saveAvailable(): Saves the state of each SmartAppliance instance in available
+
+async loadAvailable(): Loads available SmartAppliance instances from the database
+
+async fullSave(): Fully saves the instance and SmartAppliance instances in available
+
+static async fullLoadById(id: Number): Loads and returns an instance from the database based on its id
+
+#### Examples: 
+
+```javascript
+const SmartHomeApp = require('./classes/homeApp');
+
+const smartHomeApp = new SmartHomeApp();
+```
+
 ## Smart Appliance Classes
 
 ### SmartAppliance
