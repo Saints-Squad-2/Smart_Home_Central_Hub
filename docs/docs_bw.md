@@ -23,3 +23,17 @@ class childAppliance extends SmartAppliance {
     ...
 }
 ```
+
+### Thermostat
+
+Thermostat class that holds preferred, minimum, and maximum temperatures, as well as units (C or F).
+
+#### Examples: 
+
+```javascript
+const { NotificationArray } = require('./classes/notifications');
+const { Thermostat } = require('./classes/thermostat');
+
+const notifications = new NotificationArray();
+const thermostat = new Thermostat(notifications);
+```
