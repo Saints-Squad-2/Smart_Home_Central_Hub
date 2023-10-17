@@ -10,13 +10,13 @@ describe('Notification Classes', () => {
             this.notif = new Notification('this is a test!');
         });
     
-        it('should become inactive when make_inactive method is called', () => {
-            this.notif.make_inactive();
+        it('should become inactive when makeInactive method is called', () => {
+            this.notif.makeInactive();
             assert.equal(this.notif.active, false);
         });
     
-        it('should become active when make_active method is called', () => {
-            this.notif.make_active();
+        it('should become active when makeActive method is called', () => {
+            this.notif.makeActive();
             assert.equal(this.notif.active, true);
         });
     });

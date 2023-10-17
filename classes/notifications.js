@@ -32,11 +32,11 @@ class Notification extends Base {
         this._notArrId = id;
     }
 
-    make_inactive() {
+    makeInactive() {
         this._active = false;
     }
 
-    make_active() {
+    makeActive() {
         this._active = true;
     }
 }
@@ -113,7 +113,7 @@ class NotificationArray extends Base {
     }
 
     static async fullLoadById(id) {
-        const loaded = await Base.loadById(Notification);
+        const loaded = await Base.loadById(Notification, id);
         await loaded.loadNotifications();
         
         return loaded;
