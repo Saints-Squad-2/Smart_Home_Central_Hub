@@ -1,10 +1,47 @@
+# Testing
+
+Testing is implemented with the [Mocha](https://mochajs.org/) framework
+
+Tests can be found in the *tests* folder
+
+### How to run tests: 
+
+```bash
+npm test
+```
+
+# Database connection
+
+Database support is set up using [Objection.js](https://vincit.github.io/objection.js/), an ORM built on top of [Knex.js](https://knexjs.org/)
+
+The *database* folder contains Base (a base orm class), a .txt file with related commands, and a 
+*knex* folder
+
+The *knex* folder contains migrations, seeds, and files for obtaining a Knex instances, one based on the configuration in knexfile.js and the other a test instance that utilizes an in-memory sqlite database.
+
+*knex/migrations* contains schema definitions for our application.
+
+### Example of using the database connection
+
+```javascript
+const knex = require('./database/knex/knex');
+const Base = require('./database/base');
+
+// Base must be set up to use a Knex instance
+Base.knex(knex);
+```
+
 # Classes
+
+Classes can be found in the *classes* folder, except where otherwise noted
 
 ### Base (Base ORM Class)
 
 ORM Base class for saving instances to / loading instances from a database.
 
 Extends [Model](https://vincit.github.io/objection.js/api/model/) class from objection.js.
+
+\*Found in the *database* folder
 
 #### Properties
 
