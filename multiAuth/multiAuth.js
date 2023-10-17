@@ -1,0 +1,56 @@
+const { signUp, signIn, confirmSignUp, confirmSignIn } = 'aws-amplify/auth';
+
+// set up a basic login code and integrate this for enabling SMS
+async function handleSignUp(
+  username,
+  password,
+  phone_number,
+  email
+) {
+  try {
+    await signUp({
+      username,
+      password,
+      options: {
+        userAttributes: {
+          phone_number,
+          email,
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+// verify sign up
+async function handleSignUpConfirmation(username, confirmationCode) {
+    try {
+      await confirmSignUp({ username, confirmationCode });
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+// Code to call confirmsign API where the user provides their 
+// confirmation code sent to their phone number.
+async function handleSignIn(username, password) {
+    try {
+      await signIn({ username, password });
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+// call confirmSignIn with the OTP sent to user's phone.
+async function handleSignInConfirmation(otpCode) {
+    try {
+      await confirmSignIn({ challengeResponse: otpCode });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  
+  
