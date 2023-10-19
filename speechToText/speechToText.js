@@ -1,21 +1,15 @@
 // Speech to text functions
 
-/*
-speechToText() converts speech to text and displays 
-it on an HTML Element with the "textTarget" id
-
-getCurrentText() returns the text in the "textTarget" element
-*/
-
+// Function to get the transcript from speech recognition results
 function getTranscript(e) {
     const transcript = Array.from(e.results)
         .map(result => result[0])
         .map(result => result.transcript)
         .join('');
-
     return transcript;
 }
 
+// Function to set up speech recognition
 function setUpRecognition() {
     const recognition = new SpeechRecognition();
     recognition.interimResults = true;
@@ -28,18 +22,22 @@ function setUpRecognition() {
     return recognition;
 }
 
+// Function to start speech recognition
 function speechToText() {
     var speech = true;
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     const recognition = setUpRecognition();
-   
-    
+
     if (speech == true) {
         recognition.start();
-        //recognition.addEventListener('end', recognition.start);
     }
 }
 
+// Function to get the current text from the "textTarget" element
 function getCurrentText() {
     return document.getElementById('textTarget').innerText;
 }
+
+// Example usage:
+// Call speechToText() to start speech recognition, 
+// and use getCurrentText() to retrieve the current recognized text.
