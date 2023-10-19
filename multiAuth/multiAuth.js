@@ -1,3 +1,8 @@
+// Written by Hpgurl08
+// Updated by bwilkins96
+
+// Initial set-up for implementing user authentication / multi-factor authentication
+
 const { Auth } = require('@aws-amplify/auth');
 const { signUp, signIn, confirmSignUp, confirmSignIn } = Auth;
 
@@ -34,7 +39,7 @@ async function handleSignUpConfirmation(username, confirmationCode) {
     }
 }
 
-// Code to call confirmsign API where the user provides the
+// Code to call signIn API where user provides
 // confirmation code sent to their phone number.
 async function handleSignIn(username, password) {
     try {
