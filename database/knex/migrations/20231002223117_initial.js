@@ -26,6 +26,11 @@ exports.up = function(knex) {
             table.decimal('_preferredTemp');
             table.decimal('_minTemp');
             table.decimal('_maxTemp');
+
+            // Light
+            table.integer('_brightness');
+            table.boolean('_voiceControlEnabled');
+            table.boolean('_motionDetectionEnabled');
         })
         .createTable('notifications', table => {
             table.increments('id').primary();

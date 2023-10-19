@@ -13,10 +13,23 @@ const { Thermostat } = require('./classes/thermostat');
 const { Camera } = require('./classes/camera');
 const { Light } = require('./classes/light/light');
 
-function main() {
-    Base.knex(knex);
+async function loadApp(id) {
+    let smartHomeApp;
+    
+    try {
+        smartHomeApp = await SmartHomeApp.fullLoadById(id);
+    } catch {
+        smartHomeApp = new SmartHomeApp();
+    }
 
-    const smartHomeApp = new SmartHomeApp();
+    return smartHomeApp;
+}
+
+async function main() {
+    Base.knex(knex);
+    knex.migrate.latest();
+
+    const smartHomeApp = await loadApp(1);
 
     const app = express();
     const port = 3000;
@@ -37,7 +50,7 @@ function main() {
         return res.json(smartHomeApp);
     });
 
-    app.get('/app/add/:type', (req, res) => {
+    app.get('/app/add/:type', async (req, res) => {
         const type = req.params.type.toLowerCase();
         let newItemClass;
         
@@ -55,6 +68,8 @@ function main() {
 
         if (newItemClass) {
             smartHomeApp.addAppliance(new newItemClass(new NotificationArray()));
+            await smartHomeApp.fullSave();
+
             return res.redirect('/app');
         }
         
