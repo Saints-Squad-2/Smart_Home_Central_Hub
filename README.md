@@ -55,6 +55,50 @@ const Base = require('./database/base');
 Base.knex(knex);
 ```
 
+# Server
+
+This project contains an API server written using [express.js](http://expressjs.com/). This API can be used to get data from and change data in a SmartHomeApp instance.
+
+The code for this server can be found in *app.js*
+
+### How to run
+
+```bash
+npm start
+```
+
+OR
+
+```bash
+node app.js
+```
+
+### Endpoints
+
+GET '/': Text response confirming the operation of the server
+
+GET '/speechToText': *speech-to-text.html* file
+
+GET '/app': JSON response showing SmartHomeApp instance
+
+GET '/app/reload': Reloads the SmartHomeApp instance from the database.
+
+GET '/app/add/:type': Adds a SmartAppliance object to the SmartHomeApp instance. SmartAppliance type is based on the *:type* parameter. Currently supported types are 'camera', 'thermometer', and 'light'. 
+
+GET '/app/remove/:id': Removes the SmartAppliance instance with id *:id* from the SmartHomeApp instance.
+
+GET '/app/removeAll': Removes all SmartAppliance instances from the SmartHomeApp instance.
+
+GET '/app/:id/:func': Executes method *func* on the SmartAppliance instance with id *id*. E.g. '/app/2/powerOn' is equivalent to smartAppliance2.powerOn(). This can be used to execute methods that don't require any arguments.
+
+GET '/app/:id': JSON response showing SmartAppliance instance with id *id*
+
+POST '/app/:id/addNotification': Adds a Notification instance to the SmartAppliance instance with id *:id*. The query parameter is *info* (the notification message). E.g. '/app/1/addNotification?info=This is a test notification!'.
+
+POST '/app/:id' Query parameters are *instanceVar* (instance variable to set) and *val* (value to use). Sets the *instanceVar* of the SmartAppliance instance with id *:id* to *val*. E.g. '/app/2?instanceVar=preferredTemp&val=70'.
+
+DELETE '/app/:id/notifications/:notifId': Deletes the Notification instance with id *:notifId* from the SmartAppliance instance with id *id*.
+
 # Classes
 
 Classes can be found in the *classes* folder, except where otherwise noted
@@ -128,6 +172,8 @@ removeAppliance(apl: SmartAppliance):
 
 numberOfAppliances(): Returns the number of SmartAppliance instances in available array
 
+getApplianceById(id: Number): Returns a SmartAppliance instance from available based on id, or null if no instance exists
+
 async saveAvailable(): Saves the state of each SmartAppliance instance in available
 
 async loadAvailable(): Loads available SmartAppliance instances from the database
@@ -135,6 +181,8 @@ async loadAvailable(): Loads available SmartAppliance instances from the databas
 async fullSave(): Fully saves the instance and SmartAppliance instances in available
 
 static async fullLoadById(id: Number): Loads and returns an instance from the database based on its id
+
+static async loadOrNew(id: Number): Returns an instance loaded from the database by id, or a new instance if no instance exists
 
 #### Examples: 
 
@@ -203,6 +251,12 @@ class childAppliance extends SmartAppliance {
     ...
 }
 ```
+
+#### Other
+
+*appliance.js* also exports:
+
+function restoreAppliance(appliance: SmartAppliance): Returns a SmartAppliance instance restored to its proper child class. This also restores boolean values. Designed to be used with SmartAppliance instances loaded from the database.
 
 ### Thermostat
 
@@ -386,6 +440,8 @@ showNotifications(): Set show to true
 
 hideNotifications(): Set show to false
 
+getNotificationById(id: Number): Returns a Notification instance from data based on id, or null if no instance exists
+
 async fullSave(): Save instance and all Notification instances in data array
 
 async loadNotifications(): Load related Notification instances from database 
@@ -404,6 +460,8 @@ const notifArray = new NotificationArray();
 
 notifArray.add(notification);
 ```
+
+## Other Classes
 
 ### Microphone Class
 
