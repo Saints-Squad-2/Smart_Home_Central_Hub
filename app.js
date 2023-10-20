@@ -22,6 +22,17 @@ async function main() {
     const app = express();
     const port = 3000;
 
+    // Print request info to console
+    app.use((req, res, next) => {
+        console.log(`\n${req.method} ${req.url}`);
+        
+        if (req.method === 'POST') {
+            console.log('Query Params:', req.query);
+        }
+
+        next();
+    });
+
     app.get('/', (req, res) => {
         return res.send('Hello from the Smart Home Central Hub! Try navigating to /app!');
     });
@@ -175,7 +186,7 @@ async function main() {
     });    
 
     app.listen(port, () => {
-        console.log(`Smart Home server is listening on port ${port}`);
+        console.log(`\nSmart Home server is listening on port ${port}`);
     });
 }
 
