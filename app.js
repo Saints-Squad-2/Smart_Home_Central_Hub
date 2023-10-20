@@ -92,7 +92,7 @@ async function main() {
         return res.redirect('/app');
     });
 
-    app.get('/app/:id/:func', (req, res) => {
+    app.get('/app/:id/:func', async (req, res) => {
         const id = Number(req.params.id);
         const func = req.params.func;
         const appliance = smartHomeApp.getApplianceById(id);
@@ -102,6 +102,8 @@ async function main() {
 
             if (typeof command === 'function') {
                 appliance[func]();
+                await appliance.fullSave();
+
                 return res.json(appliance);
             }
         }
@@ -136,13 +138,15 @@ async function main() {
         return res.send(`No appliance of specified id (${id}) found`);
     });    
 
-    app.post('/app/:id', (req, res) => {
+    app.post('/app/:id', async (req, res) => {
         const id = Number(req.params.id);
         const {instanceVar, val} = req.query;
         const appliance = smartHomeApp.getApplianceById(id);
 
         if (appliance) {
             appliance[instanceVar] = val;
+            await appliance.fullSave();
+
             return res.json(appliance);
         }
 
