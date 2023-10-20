@@ -27,9 +27,9 @@ async function loadApp(id) {
 
 async function main() {
     Base.knex(knex);
-    knex.migrate.latest();
+    await knex.migrate.latest();
 
-    const smartHomeApp = await loadApp(1);
+    let smartHomeApp = await loadApp(1);
 
     const app = express();
     const port = 3000;
@@ -48,6 +48,11 @@ async function main() {
 
     app.get('/app', (req, res) => {
         return res.json(smartHomeApp);
+    });
+
+    app.get('/app/reload', async (req, res) => {
+        smartHomeApp = await loadApp(1);
+        return res.redirect('/app');
     });
 
     app.get('/app/add/:type', async (req, res) => {
@@ -76,9 +81,31 @@ async function main() {
         return res.send('Invalid SmartAppliance Type');
     });
 
+    app.get('/app/remove/:idx', async (req, res) => {
+        const idx = req.params.idx;
+        const itemToRemove = smartHomeApp.available[idx];
+
+        if (itemToRemove) {
+            smartHomeApp.removeAppliance(itemToRemove);
+            await itemToRemove.deleteFromDB(SmartAppliance);    
+        }
+       
+        return res.redirect('/app');
+    });
+
+    app.get('/app/removeAll', async (req, res) => {
+        for (itemToRemove of smartHomeApp.available) {
+            smartHomeApp.removeAppliance(itemToRemove);
+            await itemToRemove.deleteFromDB(SmartAppliance);    
+        }
+
+        return res.redirect('/app');
+    });
+
     app.listen(port, () => {
         console.log(`Smart Home server is listening on port ${port}`);
     });
 }
 
 main();
+

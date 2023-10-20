@@ -3,6 +3,8 @@
 const Base = require('../database/base');
 const { SmartAppliance } = require('./appliance');
 
+const { restoreAppliance } = require('../utils');
+
 class SmartHomeApp extends Base {
     static get tableName() {
         return 'smartHomeApps';
@@ -62,8 +64,11 @@ class SmartHomeApp extends Base {
         .relatedQuery('_available')
         .for(this.id);
 
-        for(let preLoaded of this._available) {
+        for(let i = 0; i < this._available.length; i++) {
+            const preLoaded = this._available[i];
             await preLoaded.loadNotificationArray();
+        
+            this._available[i] = restoreAppliance(preLoaded);
         }
     }
 

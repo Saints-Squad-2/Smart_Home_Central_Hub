@@ -1,8 +1,8 @@
 const { SmartAppliance } = require('../appliance');
 
 class Light extends SmartAppliance {
-  constructor(name = '', brightness = 100) {
-    super(name);
+  constructor(notifications, name = '', brightness = 100) {
+    super(notifications, name);
     this._brightness = brightness;
     this._voiceControlEnabled = false;
     this._motionDetectionEnabled = false;
