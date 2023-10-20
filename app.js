@@ -92,6 +92,24 @@ async function main() {
         return res.redirect('/app');
     });
 
+    app.get('/app/:id/:func', (req, res) => {
+        const id = Number(req.params.id);
+        const func = req.params.func;
+        const appliance = smartHomeApp.getApplianceById(id);
+
+        if (appliance) {
+            const command = appliance[func];
+
+            if (typeof command === 'function') {
+                appliance[func]();
+                return res.json(appliance);
+            }
+        }
+
+        res.status(400);
+        return res.send(`Unable to execute ${func} on appliance of specified id (${id}) found`);
+    });    
+
     app.get('/app/:id', (req, res) => {
         const id = Number(req.params.id);
         const appliance = smartHomeApp.getApplianceById(id);
@@ -100,7 +118,7 @@ async function main() {
 
         res.status(404);
         return res.send(`No appliance of specified id (${id}) found`);
-    })
+    });
 
     app.listen(port, () => {
         console.log(`Smart Home server is listening on port ${port}`);
