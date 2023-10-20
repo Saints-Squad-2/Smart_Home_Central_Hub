@@ -23,7 +23,7 @@ async function main() {
     const port = 3000;
 
     app.get('/', (req, res) => {
-        return res.send('Hello from the Smart Home Central Hub!\nTry navigating to /app!');
+        return res.send('Hello from the Smart Home Central Hub! Try navigating to /app!');
     });
 
     app.get('/speechToText', (req, res) => {
@@ -66,12 +66,13 @@ async function main() {
             return res.redirect('/app');
         }
         
-        return res.send('Invalid SmartAppliance Type');
+        res.status(404);
+        return res.send(`Invalid SmartAppliance Type: ${type}`);
     });
 
-    app.get('/app/remove/:idx', async (req, res) => {
-        const idx = req.params.idx;
-        const itemToRemove = smartHomeApp.available[idx];
+    app.get('/app/remove/:id', async (req, res) => {
+        const id = Number(req.params.id);
+        const itemToRemove = smartHomeApp.getApplianceById(id);
 
         if (itemToRemove) {
             smartHomeApp.removeAppliance(itemToRemove);
@@ -90,6 +91,16 @@ async function main() {
 
         return res.redirect('/app');
     });
+
+    app.get('/app/:id', (req, res) => {
+        const id = Number(req.params.id);
+        const appliance = smartHomeApp.getApplianceById(id);
+
+        if (appliance) return res.json(appliance);
+
+        res.status(404);
+        return res.send(`No appliance of specified id (${id}) found`);
+    })
 
     app.listen(port, () => {
         console.log(`Smart Home server is listening on port ${port}`);

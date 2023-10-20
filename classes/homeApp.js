@@ -54,6 +54,16 @@ class SmartHomeApp extends Base {
         return this._available.length;
     }
 
+    getApplianceById(id) {
+        for (let appliance of this._available) {
+            if (appliance.id === id) {
+                return appliance;
+            }
+        }
+
+        return null;
+    }
+
     async saveAvailable() {
         for(let appliance of this.available) {
             appliance.smartHomeAppId = this.id;

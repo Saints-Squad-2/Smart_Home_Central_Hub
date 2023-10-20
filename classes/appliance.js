@@ -117,8 +117,6 @@ function matchVariables(restored, appliance) {
     restored['_smartHomeAppId'] = appliance._smartHomeAppId;
     restored.setIds();
 
-    let ids = ['id', '_smartHomeAppId', '_applianceId'];
-
     for (key of Object.keys(restored)) {
         restored[key] = appliance[key];
 
@@ -128,6 +126,8 @@ function matchVariables(restored, appliance) {
             restored[key] = Boolean(val);
         }
     }
+
+    restored.notifications.show = appliance.notifications.show;
 }
 
 // Restore appliance loaded from database to correct child class
@@ -145,7 +145,7 @@ function restoreAppliance(appliance) {
     } else if (appliance['_brightness']) {
         restored = new Light(appliance.notifications, appliance.name, appliance._brightness);
     } else {
-        return appliance;
+        restored = appliance;
     }
 
     matchVariables(restored, appliance);

@@ -67,6 +67,10 @@ class NotificationArray extends Base {
         return this._show;
     }
 
+    set show(val) {
+        this._show = Boolean(val);
+    }
+
     get applianceId() {
         return this._applianceId;
     }
