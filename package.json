@@ -1,8 +1,8 @@
 {
   "name": "smart_home_central_hub",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A group project for SWDV 650 at Maryville University",
+  "main": "app.js",
   "scripts": {
     "test": "mocha tests",
     "start": "node app.js",
