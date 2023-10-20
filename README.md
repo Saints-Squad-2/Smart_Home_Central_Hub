@@ -13,7 +13,7 @@ cd ./Smart_Home_Central_Hub
 
 npm install
 
-npm start || node app.js
+npm start
 ```
 
 # Wireframe prototype
@@ -33,6 +33,10 @@ Tests can be found in the *tests* folder
 ```bash
 npm test
 ```
+
+<img src="./images/testResults1.png" alt="Smart Home App Logo" width="475"/>
+
+<img src="./images/testResults2.png" alt="Smart Home App Logo" width="475"/>
 
 # Database connection
 
