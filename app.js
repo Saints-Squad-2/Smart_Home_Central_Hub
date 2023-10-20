@@ -107,7 +107,7 @@ async function main() {
         }
 
         res.status(400);
-        return res.send(`Unable to execute ${func} on appliance of specified id (${id}) found`);
+        return res.send(`Unable to execute ${func} on appliance of specified id (${id})`);
     });    
 
     app.get('/app/:id', (req, res) => {
@@ -119,6 +119,20 @@ async function main() {
         res.status(404);
         return res.send(`No appliance of specified id (${id}) found`);
     });
+
+    app.post('/app/:id', (req, res) => {
+        const id = Number(req.params.id);
+        const {instanceVar, val} = req.query;
+        const appliance = smartHomeApp.getApplianceById(id);
+
+        if (appliance && (instanceVar in appliance)) {
+            appliance[instanceVar] = val;
+            return res.json(appliance);
+        }
+
+        res.status(400);
+        return res.send(`Unable to set ${instanceVar} on appliance of specified id (${id})`);
+    });    
 
     app.listen(port, () => {
         console.log(`Smart Home server is listening on port ${port}`);
