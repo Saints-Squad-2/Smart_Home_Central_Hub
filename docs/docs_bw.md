@@ -299,7 +299,7 @@ notifArray.add(notification);
 
 ## Server
 
-This project contains an API server written using [express.js](http://expressjs.com/)
+This project contains an API server written using [express.js](http://expressjs.com/). This API can be used to get data from and change data in a SmartHomeApp instance.
 
 The code for this server can be found in *app.js*
 
@@ -340,3 +340,19 @@ POST '/app/:id/addNotification': Adds a Notification instance to the SmartApplia
 POST '/app/:id' Query parameters are *instanceVar* (instance variable to set) and *val* (value to use). Sets the *instanceVar* of the SmartAppliance instance with id *:id* to *val*. E.g. '/app/2?instanceVar=preferredTemp&val=70'.
 
 DELETE '/app/:id/notifications/:notifId': Deletes the Notification instance with id *:notifId* from the SmartAppliance instance with id *id*.
+
+
+<!-- For SmartAppliance -->
+#### Other
+
+*appliance.js* also exports:
+
+function restoreAppliance(appliance: SmartAppliance): Returns a SmartAppliance instance restored to its proper child class. This also restores boolean values. Designed to be used with SmartAppliance instances loaded from the database.
+
+<!-- For SmartHomeApp -->
+getApplianceById(id: Number): Returns a SmartAppliance instance from available based on id, or null if no instance exists.
+
+static async loadOrNew(id: Number): Returns an instance loaded from the database by id, or a new instance if no instance exists.
+
+<!-- For NotificationArray -->
+getNotificationById(id: Number): Returns a Notification instance from data based on id, or null if no instance exists.
