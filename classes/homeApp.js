@@ -1,9 +1,7 @@
 // Smart Home App class
 
 const Base = require('../database/base');
-const { SmartAppliance } = require('./appliance');
-
-const { restoreAppliance } = require('../utils');
+const { SmartAppliance, restoreAppliance } = require('./appliance');
 
 class SmartHomeApp extends Base {
     static get tableName() {
@@ -18,6 +16,10 @@ class SmartHomeApp extends Base {
 
     get available() {
         return this._available;
+    }
+
+    set available(avail) {
+        this._available = avail;
     }
 
     addAppliance(appliance) {
@@ -82,6 +84,18 @@ class SmartHomeApp extends Base {
         await loaded.loadAvailable();
 
         return loaded;
+    }
+
+    static async loadOrNew(id) {
+        let smartHomeApp;
+        
+        try {
+            smartHomeApp = await SmartHomeApp.fullLoadById(id);
+        } catch {
+            smartHomeApp = new SmartHomeApp();
+        }
+    
+        return smartHomeApp;
     }
 
     static get relationMappings() {
