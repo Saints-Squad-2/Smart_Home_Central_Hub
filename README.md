@@ -95,7 +95,7 @@ GET '/app/:id': JSON response showing SmartAppliance instance with id *id*
 
 POST '/app/:id/addNotification': Adds a Notification instance to the SmartAppliance instance with id *:id*. The query parameter is *info* (the notification message). E.g. '/app/1/addNotification?info=This is a test notification!'.
 
-POST '/app/:id' Query parameters are *instanceVar* (instance variable to set) and *val* (value to use). Sets the *instanceVar* of the SmartAppliance instance with id *:id* to *val*. E.g. '/app/2?instanceVar=preferredTemp&val=70'.
+POST '/app/:id': Query parameters are *instanceVar* (instance variable to set) and *val* (value to use). Sets the *instanceVar* of the SmartAppliance instance with id *:id* to *val*. E.g. '/app/2?instanceVar=preferredTemp&val=70'.
 
 DELETE '/app/:id/notifications/:notifId': Deletes the Notification instance with id *:notifId* from the SmartAppliance instance with id *id*.
 
@@ -230,7 +230,7 @@ async saveNotificationArray(): Save notifications to the database
 
 async loadNotificationArray(): Load notification from the database
 
-async fullSave(): Fully save the instance and assoiciated notifications to the database
+async fullSave(): Fully save the instance and associated notifications to the database
 
 static async fullLoadById(id: Number): Fully load an instance based on its id in the database
 
@@ -268,7 +268,7 @@ Extends SmartAppliance
 
 units: Celsius or Fahrenheit 
 
-preferredTemp: A preffered temperature
+preferredTemp: A preferred temperature
 
 minTemp: A minimum temperature
 
@@ -422,7 +422,7 @@ Extends Base ORM class.
 
 #### Properties
 
-data: Array of Notiication instances
+data: Array of Notification instances
 
 show: Whether notifications should be shown or not (hidden)
 
