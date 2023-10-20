@@ -105,6 +105,16 @@ class NotificationArray extends Base {
         this._show = false;
     }
 
+    getNotificationById(id) {
+        for(let notif of this._data) {
+            if (notif.id === id) {
+                return notif;
+            }
+        }
+
+        return null;
+    }
+
     async fullSave() {
         await this.save(NotificationArray);
 

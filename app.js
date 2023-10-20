@@ -148,6 +148,26 @@ async function main() {
 
         res.status(400);
         return res.send(`Unable to set ${instanceVar} on appliance of specified id (${id})`);
+    });  
+    
+    app.delete('/app/:id/notifications/:notifId', async (req, res) => {
+        const id = Number(req.params.id);
+        const notifId = Number(req.params.notifId);
+        const appliance = smartHomeApp.getApplianceById(id);
+
+        if (appliance) {
+            const notifToRemove = appliance.notifications.getNotificationById(notifId);
+            
+            if (notifToRemove) {
+                appliance.notifications.remove(notifToRemove);
+                await notifToRemove.deleteFromDB(Notification);
+                
+                return res.json(appliance);
+            }
+        }
+
+        res.status(400);
+        return res.send(`No notification of specified id (${notifId}) found for appliance ${id}`);
     });    
 
     app.listen(port, () => {
