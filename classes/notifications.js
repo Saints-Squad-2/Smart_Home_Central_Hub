@@ -24,6 +24,10 @@ class Notification extends Base {
         return this._active;
     }
 
+    set active(act) {
+        this._active = Boolean(act);
+    }
+
     get notArrId() {
         return this._notArrId;
     }

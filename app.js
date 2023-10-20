@@ -120,12 +120,28 @@ async function main() {
         return res.send(`No appliance of specified id (${id}) found`);
     });
 
+    app.post('/app/:id/addNotification', async (req, res) => {
+        const id = Number(req.params.id);
+        const { info } = req.query;
+        const appliance = smartHomeApp.getApplianceById(id);
+
+        if (appliance) {
+            appliance.notifications.add(new Notification(info));
+            await appliance.fullSave();
+            
+            return res.json(appliance);
+        }
+
+        res.status(404);
+        return res.send(`No appliance of specified id (${id}) found`);
+    });    
+
     app.post('/app/:id', (req, res) => {
         const id = Number(req.params.id);
         const {instanceVar, val} = req.query;
         const appliance = smartHomeApp.getApplianceById(id);
 
-        if (appliance && (instanceVar in appliance)) {
+        if (appliance) {
             appliance[instanceVar] = val;
             return res.json(appliance);
         }

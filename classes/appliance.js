@@ -128,6 +128,9 @@ function matchVariables(restored, appliance) {
     }
 
     restored.notifications.show = appliance.notifications.show;
+    for(let notif of restored.notifications.data) {
+        notif.active = Boolean(notif.active);
+    }
 }
 
 // Restore appliance loaded from database to correct child class
