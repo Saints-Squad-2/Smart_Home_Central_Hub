@@ -1,7 +1,7 @@
 // This is a file where I was testing the orm / database connection
 
 const {testKnex, createSchema} = require('./knex/testKnex');
-const Base = require('../database/base');
+const Base = require('./base');
 const { SmartAppliance } = require('../classes/appliance');
 
 const {Notification, NotificationArray} = require('../classes/notifications'); 

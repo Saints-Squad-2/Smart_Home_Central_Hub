@@ -1,7 +1,7 @@
 // Smart Home App class
 
 const Base = require('../database/base');
-const { SmartAppliance } = require('./appliance');
+const { SmartAppliance, restoreAppliance } = require('./appliance');
 
 class SmartHomeApp extends Base {
     static get tableName() {
@@ -16,6 +16,10 @@ class SmartHomeApp extends Base {
 
     get available() {
         return this._available;
+    }
+
+    set available(avail) {
+        this._available = avail;
     }
 
     addAppliance(appliance) {
@@ -50,6 +54,16 @@ class SmartHomeApp extends Base {
         return this._available.length;
     }
 
+    getApplianceById(id) {
+        for (let appliance of this._available) {
+            if (appliance.id === id) {
+                return appliance;
+            }
+        }
+
+        return null;
+    }
+
     async saveAvailable() {
         for(let appliance of this.available) {
             appliance.smartHomeAppId = this.id;
@@ -62,8 +76,11 @@ class SmartHomeApp extends Base {
         .relatedQuery('_available')
         .for(this.id);
 
-        for(let preLoaded of this._available) {
+        for(let i = 0; i < this._available.length; i++) {
+            const preLoaded = this._available[i];
             await preLoaded.loadNotificationArray();
+        
+            this._available[i] = restoreAppliance(preLoaded);
         }
     }
 
@@ -77,6 +94,18 @@ class SmartHomeApp extends Base {
         await loaded.loadAvailable();
 
         return loaded;
+    }
+
+    static async loadOrNew(id) {
+        let smartHomeApp;
+        
+        try {
+            smartHomeApp = await SmartHomeApp.fullLoadById(id);
+        } catch {
+            smartHomeApp = new SmartHomeApp();
+        }
+    
+        return smartHomeApp;
     }
 
     static get relationMappings() {

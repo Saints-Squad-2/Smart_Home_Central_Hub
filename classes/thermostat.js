@@ -28,6 +28,8 @@ class Thermostat extends SmartAppliance {
     }
 
     set preferredTemp(temp) {
+        temp = Number(temp);
+
         if (isANumber(temp)) {
             this._preferredTemp = temp;
         }
@@ -38,6 +40,8 @@ class Thermostat extends SmartAppliance {
     }
 
     set minTemp(temp) {
+        temp = Number(temp);
+
         if (isANumber(temp)) {
             this._minTemp = temp;
         }
@@ -48,6 +52,8 @@ class Thermostat extends SmartAppliance {
     }
 
     set maxTemp(temp) {
+        temp = Number(temp);
+
         if (isANumber(temp)) {
             this._maxTemp = temp;
         }

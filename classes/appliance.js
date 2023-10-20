@@ -111,4 +111,48 @@ class SmartAppliance extends Base {
     }
 }
 
-module.exports = { SmartAppliance }
+// Set variables of restored with corresponding values from appliance
+function matchVariables(restored, appliance) {
+    restored['id'] = appliance.id;
+    restored['_smartHomeAppId'] = appliance._smartHomeAppId;
+    restored.setIds();
+
+    for (key of Object.keys(restored)) {
+        restored[key] = appliance[key];
+
+        let val = restored[key]; 
+        let keyIsId = (key === 'id') || (key === '_smartHomeAppId') || (key === '_applianceId');
+        if (!keyIsId && (val === 0 || val === 1)) {
+            restored[key] = Boolean(val);
+        }
+    }
+
+    restored.notifications.show = appliance.notifications.show;
+    for(let notif of restored.notifications.data) {
+        notif.active = Boolean(notif.active);
+    }
+}
+
+// Restore appliance loaded from database to correct child class
+function restoreAppliance(appliance) {
+    const { Thermostat } = require('./thermostat');
+    const { Camera } = require('./camera');
+    const { Light } = require('./light/light');
+
+    let restored;
+
+    if (appliance['_units']) {
+        restored = new Thermostat(appliance.notifications, appliance.name);
+    } else if (appliance['_resolution']) {
+        restored = new Camera(appliance.notifications, appliance.name, appliance._resolution);
+    } else if (appliance['_brightness']) {
+        restored = new Light(appliance.notifications, appliance.name, appliance._brightness);
+    } else {
+        restored = appliance;
+    }
+
+    matchVariables(restored, appliance);
+    return restored;
+}
+
+module.exports = { SmartAppliance, restoreAppliance }

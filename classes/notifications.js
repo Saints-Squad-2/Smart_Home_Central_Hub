@@ -24,6 +24,10 @@ class Notification extends Base {
         return this._active;
     }
 
+    set active(act) {
+        this._active = Boolean(act);
+    }
+
     get notArrId() {
         return this._notArrId;
     }
@@ -67,6 +71,10 @@ class NotificationArray extends Base {
         return this._show;
     }
 
+    set show(val) {
+        this._show = Boolean(val);
+    }
+
     get applianceId() {
         return this._applianceId;
     }
@@ -95,6 +103,16 @@ class NotificationArray extends Base {
 
     hideNotifications() {
         this._show = false;
+    }
+
+    getNotificationById(id) {
+        for(let notif of this._data) {
+            if (notif.id === id) {
+                return notif;
+            }
+        }
+
+        return null;
     }
 
     async fullSave() {
