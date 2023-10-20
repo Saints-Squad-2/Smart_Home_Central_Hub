@@ -67,7 +67,7 @@ async function main() {
         }
         
         res.status(404);
-        return res.send(`Invalid SmartAppliance Type: ${type}`);
+        return res.send(`Invalid SmartAppliance Type: ${type}. Try camera, thermometer, or light instead.`);
     });
 
     app.get('/app/remove/:id', async (req, res) => {
